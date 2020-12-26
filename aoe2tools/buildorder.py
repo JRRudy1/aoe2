@@ -80,7 +80,7 @@ class BuildOrder:
             ar = vil_table[:,ri+1].flatten()
             if any(ar):
                 lns += [ax.plot(ts, ar, color=c, label=r, lw=1.5,
-                        clip_on=False, zorder=10)]
+                        clip_on=False, zorder=10-ri)]
             else:
                 lns += [None]
         return lns
@@ -126,7 +126,7 @@ class BuildOrder:
                 if ar[ti] != ar[ti-1]:
                     x = tar[ti]
                     y = N if ar[ti] > ar[ti-1] else N
-                    ax.text(x, y, f'{N}', ha='center', va='center', fontsize=4.5, fontweight='bold', zorder=10000+ti,
+                    ax.text(x, y, f'{N}', ha='center', va='center', fontsize=4.5, fontweight='bold', zorder=10000+ti-10*ri,
                             bbox=dict(facecolor='white', boxstyle='round,pad=0.1', edgecolor=c, linewidth=0.8))
 
     def add_totalvils_point_labels(self, ax=None, empire=None):
