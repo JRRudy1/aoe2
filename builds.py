@@ -81,18 +81,19 @@ def pop21_scouts(empire):
 @BuildOrder('22 Pop M@A into Archers', fontsize=8.5)
 def pop22_MaA_archers(empire):
     empire.standard_start(food=6,wood=4)
-    empire.produce_vils_until(13, 'food')
+    empire.produce_vils_until(14, 'food')
     empire.build('Barracks')
     empire.produce_vils(1, 'wood')
     empire.produce_vils(2, 'gold')
+    empire.research_loom()
     empire.click_feudal()
-    empire.rebalance_eco(food=10, wood=8, gold=2)
+    empire.rebalance_eco(food=9, wood=10, gold=2)
     empire.reach_feudal()
-    empire.produce_vils_until(18, 'wood')
-    empire.produce_vils(5, 'gold')
-    empire.produce_vils_until(10, 'gold')
+    empire.build("Archery Range #1")
+    empire.produce_vils_until(7, 'gold')
+    empire.produce_vils_until(16, 'food')
     empire.click_castle()
-
+    empire.build("Archery Range #2")
 
 ##################################################
 ############### Other Build Orders ###############
