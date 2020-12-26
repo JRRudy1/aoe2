@@ -74,7 +74,6 @@ def pop21_scouts(empire):
     empire.rebalance_eco(food=10, wood=10)
     empire.reach_feudal()
     empire.produce_vils_until(18, 'wood')
-    empire.produce_vils(5, 'gold')
     empire.produce_vils_until(10, 'gold')
     empire.click_castle()
 
