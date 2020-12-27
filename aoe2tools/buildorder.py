@@ -8,7 +8,6 @@ class BuildOrder:
     resource_names  = ['food', 'wood', 'gold',    'stone', 'builder']
     resource_colors = ['red', 'green', 'gold', 'darkgrey',   'brown']
 
-    # Creates build order object with given name
     def __init__(self, name=None, fontsize=None):
         self.name = name
         self.bo_ax = None
@@ -59,6 +58,7 @@ class BuildOrder:
         self.draw_ages(ax, empire)
         self.add_point_labels(ax, empire)
         self.add_totalvils_point_labels(ax, empire)
+        self.add_legend(ax, empire)
 
         ax.set(ylim=[0, 5*np.ceil(ax.get_ylim()[-1]/5.)])
         ax.set(xlim=[0, 5*np.ceil(ax.get_xlim()[-1]/5. -0.1)])
@@ -91,9 +91,10 @@ class BuildOrder:
 
         hist = empire.get_history_table()
         ts = hist[:,0].flatten()
-        ntotals = hist[:,-1].flatten()
+        n_totals = hist[:,-1].flatten()
+        labeled = False
 
-        for i in range(1,len(ntotals)-1):
+        for i in range(1,len(n_totals)-1):
             previous_row = hist[i-1,:]
             current_row = hist[i,:]
             next_row = hist[i+1,:]
@@ -110,7 +111,10 @@ class BuildOrder:
                 if current_row[-1] != previous_row[-1]:
                     ax.plot(ts[i],current_row[-1],marker=m, c=c, zorder=120, **params)
                 m = ''
-            ax.plot(ts[i:i+2], ntotals[i:i+2], marker=m, c=c, zorder=100+i, **params)
+            line, = ax.plot(ts[i:i+2], n_totals[i:i+2], marker=m, c=c, zorder=100+i, **params)
+            if sum(changed) != 1 and current_row[-1] == previous_row[-1] and not labeled:
+                line.set_label('research')
+                labeled = True
 
     def add_point_labels(self, ax=None, empire=None):
         ax = self.plt_ax if ax is None else ax
@@ -172,6 +176,10 @@ class BuildOrder:
             castle_txt = ax.text(t,y,r"II$\longrightarrow$III", **props)
 
         return feudal_txt, castle_txt
+
+    def add_legend(self, ax=None, empire=None):
+        ax = self.plt_ax if ax is None else ax
+        ax.legend(loc='upper left',fontsize=7.1, framealpha=1)
 
     def add_text(self, ax=None, empire=None):
         ax = self.plt_ax if ax is None else ax
